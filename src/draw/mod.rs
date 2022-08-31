@@ -9,3 +9,6 @@ pub use self::mouth as Mouth;
 
 pub mod eyes;
 pub use self::eyes as Eyes;
+
+pub mod nose;
+pub use self::nose as Nose;
