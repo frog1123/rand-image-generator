@@ -1,6 +1,7 @@
 extern crate image;
 extern crate rand;
 
+use std::time::Instant;
 use std::path::Path;
 use std::fs;
 use colored::Colorize;
@@ -18,14 +19,25 @@ pub struct CustomizationOptions {
 }
 
 fn main() -> Result<(), std::io::Error> {
-  // construct a new RGB ImageBuffer with the specified width and height
-  let img: RgbImage = ImageBuffer::new(30, 30);
-
-  // create output of directory if it doesnt exist
   if !Path::new("./outputs").exists() {
     println!("{} | path: './outputs' doesn't exist, creating path", "✘".red() );
     fs::create_dir_all("./outputs")?;
   }
+
+  for i in 1..6 {
+    generate(i, true).map_err(|err| println!("{:?}", err)).ok();
+  }
+
+  Ok(())
+}
+
+fn generate(num: i32, logging: bool) -> Result<(), std::io::Error> {
+  let now = Instant::now();
+
+  // construct a new RGB ImageBuffer with the specified width and height
+  let img: RgbImage = ImageBuffer::new(30, 30);
+
+  // create output of directory if it doesnt exist
 
   let body_colors: [[u8; 3]; 6] = [
     [232, 190, 172], [255, 219, 172], [198, 134, 66], [89, 46, 24], [30, 204, 76], [78, 216, 207]
@@ -57,11 +69,16 @@ fn main() -> Result<(), std::io::Error> {
 
   finished_img = img_with_eyes;
 
+  
   // save img
-  finished_img.save(Path::new("./outputs/1.png")).unwrap();
+  let path = format!("./outputs/{}.png", num.to_string());
+  finished_img.save(Path::new(&path)).unwrap();
 
   // log info
-  utils::Log_Info::log(&finished_img, &options);
+  let elapsed = now.elapsed();
+  if logging {
+    utils::Log_Info::log(&finished_img, &options, elapsed);
+  }
 
   Ok(())
 }

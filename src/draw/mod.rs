@@ -1,6 +1,3 @@
-pub mod hi;
-pub use self::hi as Hi;
-
 pub mod bg;
 pub use self::bg as Bg;
 
