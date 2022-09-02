@@ -12,3 +12,9 @@ pub use self::eyes as Eyes;
 
 pub mod nose;
 pub use self::nose as Nose;
+
+pub mod mouth_accessory;
+pub use self::mouth_accessory as Mouth_Accessory;
+
+pub mod hat_accessory;
+pub use self::hat_accessory as Hat_Accesory;

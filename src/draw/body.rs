@@ -2,7 +2,7 @@ use image::{RgbImage};
 
 use crate::utils;
 
-pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3]) -> RgbImage {
+pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3], has_hat: bool) -> RgbImage {
 
   // create outline
   let outline_points: [(u32, u32); 59] = [
@@ -58,6 +58,15 @@ pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3]) -> RgbImage {
     (13, 23), (14, 23), (15, 23), (16, 23), (17, 23), (18, 23), (19, 23),
   ];
 
+  let demon_points_1: [(u32, u32); 14] = [
+    (12, 7), (12, 6), (12, 5), (13, 4), (14, 5), (14, 6), (15, 7),
+    (24, 7), (24, 6), (24, 5), (23, 4), (22, 5), (22, 6), (21, 7)
+  ];
+  let demon_points_2: [(u32, u32); 8] = [
+    (13, 5), (13, 6), (13, 7), (14, 7),
+    (23, 5), (23, 6), (23, 7), (22, 7)
+  ];
+
   img = utils::create_pixel::create(img, Box::new(outline_points), [0, 0, 0]);
   img = utils::create_pixel::create(img, Box::new(inside_points), color);
 
@@ -67,6 +76,10 @@ pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3]) -> RgbImage {
   }
   if variant == "monkey" {
     img = utils::create_pixel::create(img, Box::new(monkey_points), [104, 85, 61]);
+  }
+  if variant == "demon" && !has_hat {
+    img = utils::create_pixel::create(img, Box::new(demon_points_1), [0, 0, 0]);
+    img = utils::create_pixel::create(img, Box::new(demon_points_2), [211, 211, 211]);
   }
 
   return img;
