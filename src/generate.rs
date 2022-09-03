@@ -18,7 +18,8 @@ pub struct CustomizationOptions<'a> {
   pub body_color: &'a [u8; 3],
   pub eye_color: &'a [u8; 3],
   pub mouth_accessory: &'a str,
-  pub hat_accessory: &'a str
+  pub hat_accessory: &'a str,
+  pub eye_accessory: &'a str
 }
 
 struct VariantInfo<'a> {
@@ -57,7 +58,7 @@ fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::E
     VariantInfo {
       name: "human",
       nose_type: "default",
-      body_colors: Box::new([[232, 190, 172], [255, 219, 172], [198, 134, 66]]),
+      body_colors: Box::new([[117, 68, 25], [141, 85, 36], [198, 134, 66], [224, 172, 105], [241, 194, 125], [255, 219, 172]]),
       eye_colors: Box::new([[12, 160, 148], [101, 160, 12], [122, 95, 191]])
     },
     VariantInfo {
@@ -88,6 +89,7 @@ fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::E
 
   let possible_mouth_accessories: [&str; 3] = ["cigarette", "pipe", "none"];
   let possible_hat_accessories: [&str; 6] = ["tophat", "crown", "beanie", "froghat", "headband", "none"];
+  let possible_eye_accessories: [&str; 4] = ["sunglasses", "monocle", "3d_glasses", "none"];
 
   // randomize options
   let variant = &variants[rand::thread_rng().gen_range(0..variants.len())];
@@ -100,6 +102,7 @@ fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::E
     eye_color: &variant.eye_colors[rand::thread_rng().gen_range(0..variant.eye_colors.len())],
     mouth_accessory: &possible_mouth_accessories[rand::thread_rng().gen_range(0..possible_mouth_accessories.len())],
     hat_accessory: &possible_hat_accessories[rand::thread_rng().gen_range(0..possible_hat_accessories.len())],
+    eye_accessory: &possible_eye_accessories[rand::thread_rng().gen_range(0..possible_eye_accessories.len())],
   };
 
   let mut has_hat: bool = true;
@@ -114,9 +117,10 @@ fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::E
   let img_with_eyes = draw::Eyes::draw(img_with_mouth, &variant.name, *options.eye_color, *options.body_color);
   let img_with_nose = draw::Nose::draw(img_with_eyes, options.nose_type, *options.body_color);
   let img_with_mouth_accessory = draw::Mouth_Accessory::draw(img_with_nose, options.mouth_accessory);
-  let img_with_hat_accessory = draw::Hat_Accesory::draw(img_with_mouth_accessory, options.hat_accessory);
+  let img_with_hat_accessory = draw::Hat_Accessory::draw(img_with_mouth_accessory, options.hat_accessory);
+  let img_with_eye_accessory = draw::Eye_Accessory::draw(img_with_hat_accessory, options.eye_accessory, options.variant);
 
-  finished_img = img_with_hat_accessory;
+  finished_img = img_with_eye_accessory;
 
   // save img
   let path = format!("./outputs/{}.png", (num + starting_num).to_string());
