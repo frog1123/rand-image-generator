@@ -2,7 +2,7 @@ use image::{RgbImage};
 
 use crate::utils;
 
-pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3], has_hat: bool) -> RgbImage {
+pub fn draw(mut img: RgbImage, variant: &str, color: [u8; 3], has_hat: bool) -> RgbImage {
 
   // create outline
   let outline_points: [(u32, u32); 59] = [

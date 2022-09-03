@@ -12,20 +12,26 @@ mod draw;
 mod utils;
 
 pub struct CustomizationOptions<'a> {
-  variant: &'a String,
+  variant: &'a str,
   bg_color: [u8; 3],
-  nose_type: &'a String,
+  nose_type: &'a str,
   body_color: &'a [u8; 3],
   eye_color: &'a [u8; 3],
   mouth_accessory: &'a str,
   hat_accessory: &'a str
 }
 
-pub struct VariantInfo {
-  name: String,
-  nose_type: String,
+struct VariantInfo<'a> {
+  name: &'a str,
+  nose_type: &'a str,
   body_colors: Box<[[u8; 3]]>,
   eye_colors: Box<[[u8; 3]]>
+}
+
+struct Settings {
+  amount: u32,
+  starting_value: u32,
+  logging: bool
 }
 
 fn main() -> Result<(), std::io::Error> {
@@ -34,16 +40,25 @@ fn main() -> Result<(), std::io::Error> {
     fs::create_dir_all("./outputs")?;
   }
 
-  // 2nd arg: logging (disable or enable logging on image generation)
-  // 3rd arg: starting value change output file names e.g. start at '5.png' instead of '1.png'
-  for i in 1..2 {
-    generate(i, true, 0).map_err(|err| println!("{:?}", err)).ok();
+  generate_images(
+    Settings { 
+      amount: 1, 
+      starting_value: 1,
+      logging: true 
+    }).ok();
+
+  Ok(())
+}
+
+fn generate_images(settings: Settings) -> Result<(), std::io::Error> {
+  for i in settings.starting_value..(settings.amount + settings.starting_value) {
+    generate(i, settings.logging, 0).map_err(|err| println!("{:?}", err)).ok();
   }
 
   Ok(())
 }
 
-fn generate(num: i32, logging: bool, starting_num: i32) -> Result<(), std::io::Error> {
+fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::Error> {
   let now = Instant::now();
 
   // construct a new RGB ImageBuffer with the specified width and height
@@ -51,32 +66,32 @@ fn generate(num: i32, logging: bool, starting_num: i32) -> Result<(), std::io::E
 
   let variants: [VariantInfo; 5] = [
     VariantInfo {
-      name: "human".to_string(),
-      nose_type: "default".to_string(),
+      name: "human",
+      nose_type: "default",
       body_colors: Box::new([[232, 190, 172], [255, 219, 172], [198, 134, 66]]),
       eye_colors: Box::new([[12, 160, 148], [101, 160, 12], [122, 95, 191]])
     },
     VariantInfo {
-      name: "zombie".to_string(),
-      nose_type: "default".to_string(),
+      name: "zombie",
+      nose_type: "default",
       body_colors: Box::new([[69, 117, 68], [52, 96, 51]]),
       eye_colors: Box::new([[122, 23, 44], [170, 76, 97]])
     },
     VariantInfo {
-      name: "demon".to_string(),
-      nose_type: "default".to_string(),
+      name: "demon",
+      nose_type: "default",
       body_colors: Box::new([[221, 82, 64], [198, 67, 49]]),
       eye_colors: Box::new([[234, 234, 51], [234, 127, 51]])
     },
     VariantInfo {
-      name: "monkey".to_string(),
-      nose_type: "monkey".to_string(),
+      name: "monkey",
+      nose_type: "monkey",
       body_colors: Box::new([[66, 51, 33]]),
       eye_colors: Box::new([[232, 232, 232]])
     },
     VariantInfo {
-      name: "alien".to_string(),
-      nose_type: "alien".to_string(),
+      name: "alien",
+      nose_type: "alien",
       body_colors: Box::new([[99, 198, 164], [63, 168, 131]]),
       eye_colors: Box::new([[255, 255, 255]]) // doesnt do anything
     }

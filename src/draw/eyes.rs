@@ -2,7 +2,7 @@ use image::{RgbImage};
 
 use crate::utils;
 
-pub fn draw(mut img: RgbImage, variant: &String, color: [u8; 3], body_color: [u8; 3]) -> RgbImage {
+pub fn draw(mut img: RgbImage, variant: &str, color: [u8; 3], body_color: [u8; 3]) -> RgbImage {
   let mut height: u32 = 16;
   if variant == "monkey" || variant == "alien" { height = 15 }
 
