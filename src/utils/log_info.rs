@@ -1,7 +1,7 @@
 use std::time::{Duration};
 use image::{RgbImage};
 use colored::Colorize;
-pub use crate::CustomizationOptions;
+pub use crate::generate::CustomizationOptions;
 
 
 pub fn log(img: &RgbImage, options: &CustomizationOptions, time: Duration) {
