@@ -7,8 +7,7 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
   if acc_type == "none" { return img }
 
   let cigarette_points_1: [(u32, u32); 5] = [(13, 21), (12, 21), (11, 21), (10, 21), (9, 21)];
-  let cigarette_points_2: [(u32, u32); 1] = [(8, 21)];
-  let cigarette_points_3: [(u32, u32); 4] = [(8, 19), (8, 18), (8, 17), (8, 16)];
+  let cigarette_points_2: [(u32, u32); 4] = [(8, 19), (8, 18), (8, 17), (8, 16)];
 
   let pipe_points_1: [(u32, u32); 23] = [
     (13, 22), (12, 23), (11, 24), (10, 24), (9, 24), (9, 23), (9, 22), (8, 22), (7, 22), (6, 22), (5, 22),
@@ -24,8 +23,13 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
 
   if acc_type == "cigarette" {
     img = utils::create_pixel::create(img, Box::new(cigarette_points_1), [181, 181, 181]);
-    img = utils::create_pixel::create(img, Box::new(cigarette_points_2), [226, 131, 63]);
-    img = utils::create_pixel::create(img, Box::new(cigarette_points_3), [150, 150, 150]);
+    img = utils::create_pixel::create(img, Box::new(cigarette_points_2), [150, 150, 150]);
+    *img.get_pixel_mut(8, 21) = image::Rgb([226, 131, 63]);
+  }
+  if acc_type == "vape" {
+    img = utils::create_pixel::create(img, Box::new(cigarette_points_1), [25, 25, 25]);
+    img = utils::create_pixel::create(img, Box::new(cigarette_points_2), [150, 150, 150]);
+    *img.get_pixel_mut(8, 21) = image::Rgb([12, 183, 175]);
   }
   if acc_type == "pipe" {
     img = utils::create_pixel::create(img, Box::new(pipe_points_1), [0, 0, 0]);

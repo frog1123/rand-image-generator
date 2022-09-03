@@ -87,8 +87,11 @@ fn generate(num: u32, logging: bool, starting_num: u32) -> Result<(), std::io::E
     }
   ];
 
-  let possible_mouth_accessories: [&str; 3] = ["cigarette", "pipe", "none"];
-  let possible_hat_accessories: [&str; 6] = ["tophat", "crown", "beanie", "froghat", "headband", "none"];
+  // TODO: add mask
+  let possible_mouth_accessories: [&str; 4] = ["cigarette", "vape", "pipe", "none"];
+  // TODO: add wizard, cowboy, and graduation hat
+  let possible_hat_accessories: [&str; 8] = ["tophat", "crown", "beanie", "froghat", "propeller", "cap", "headband", "none"];
+  // TODO: add pirate eye patch
   let possible_eye_accessories: [&str; 4] = ["sunglasses", "monocle", "3d_glasses", "none"];
 
   // randomize options
