@@ -20,6 +20,13 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
   let pipe_points_3: [(u32, u32); 9] = [
     (7, 20), (7, 18), (6, 16), (7, 16), (8, 16), (6, 15), (7, 15), (8, 15), (7, 14)
   ];
+  let mask_points_1: [(u32, u32); 33] = [
+    (13, 18), (14, 18), (15, 18), (16, 18), (17, 18), (18, 18), (19, 18), (19, 19), (19, 20), (19, 21), (19, 22), (18, 23), (17, 23), (16, 23), (15, 23), (14, 23), (13, 22), (13, 21), (13, 20), (13, 19), (13, 18),
+    (12, 17), (20, 17), (21, 17), (22, 17), (23, 16), (24, 16),
+    (12, 21), (20, 21), (21, 21), (22, 21), (23, 21), (24, 21)
+  ];
+  let mask_points_2: [(u32, u32); 10] = [(14, 19), (15, 19), (16, 19), (17, 19), (18, 19), (14, 21), (15, 21), (16, 21), (17, 21), (18, 21)];
+  let mask_points_3: [(u32, u32); 10] = [(14, 20), (15, 20), (16, 20), (17, 20), (18, 20), (14, 22), (15, 22), (16, 22), (17, 22), (18, 22)];
 
   if acc_type == "cigarette" {
     img = utils::create_pixel::create(img, Box::new(cigarette_points_1), [181, 181, 181]);
@@ -35,6 +42,11 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
     img = utils::create_pixel::create(img, Box::new(pipe_points_1), [0, 0, 0]);
     img = utils::create_pixel::create(img, Box::new(pipe_points_2), [84, 47, 21]);
     img = utils::create_pixel::create(img, Box::new(pipe_points_3), [150, 150, 150]);
+  }
+  if acc_type == "mask" {
+    img = utils::create_pixel::create(img, Box::new(mask_points_1), [225, 225, 225]);
+    img = utils::create_pixel::create(img, Box::new(mask_points_2), [128, 206, 203]);
+    img = utils::create_pixel::create(img, Box::new(mask_points_3), [120, 186, 183]);
   }
 
   return img;

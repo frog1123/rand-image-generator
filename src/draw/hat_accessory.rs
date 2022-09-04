@@ -80,6 +80,16 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
     (8, 10), (9, 10), (10, 10), (11, 10), (12, 10), (13, 10), (14, 10), (15, 10), (16, 10), (17, 10), (18, 10), (19, 10), (20, 10), (21, 10), (22, 10), (23, 10), (24, 10), (25, 10),
     (7, 11), (8, 11), (9, 11), (10, 11), (11, 11), (12, 11), (13, 11), (14, 11), (15, 11), (16, 11), (17, 11), (18, 11), (19, 11), (20, 11), (21, 11), (22, 11), (23, 11), (24, 11), (25, 11)
   ];
+  let akutsuki_cap_points_1: [(u32, u32); 21] = [
+    (11, 8), (12, 9), (12, 10), (11, 11), (10, 10),
+    (17, 7), (18, 7), (19, 8), (18, 9), (17, 10), (16, 10), (15, 10), (14, 9), (15, 8), (16, 8),
+    (24, 7), (23, 8), (22, 9), (23, 10), (24, 10), (25, 10)
+  ];
+  let akutsuki_cap_points_2: [(u32, u32); 12] = [
+    (11, 9), (11, 10),
+    (17, 8), (18, 8), (15, 9), (16, 9), (17, 9),
+    (24, 8), (25, 8), (23, 9), (24, 9), (25, 9)
+  ];
 
   if acc_type == "tophat" {
     img = utils::create_pixel::create(img, Box::new(tophat_points_1), [0, 0, 0]);
@@ -115,6 +125,11 @@ pub fn draw(mut img: RgbImage, acc_type: &str) -> RgbImage {
     img = utils::create_pixel::create(img, Box::new(cap_points), [124, 57, 206]);
     *img.get_pixel_mut(13, 8) = image::Rgb([155, 102, 221]);
     *img.get_pixel_mut(12, 9) = image::Rgb([155, 102, 221]);
+  }
+  if acc_type == "akutsuki_cap" {
+    img = utils::create_pixel::create(img, Box::new(cap_points), [10, 12, 17]);
+    img = utils::create_pixel::create(img, Box::new(akutsuki_cap_points_1), [244, 244, 244]);
+    img = utils::create_pixel::create(img, Box::new(akutsuki_cap_points_2), [252, 30, 20]);
   }
 
   return img;
